@@ -12,7 +12,7 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_DB: basenet
+          POSTGRES_DB: testdb
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         options: >-
