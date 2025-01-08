@@ -1,1 +1,22 @@
+name: CD
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to Production Database
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      run: |
+        psql $DATABASE_URL -f sql/functions.sql
+        psql $DATABASE_URL -f sql/procedures.sql
+        psql $DATABASE_URL -f sql/views.sql
