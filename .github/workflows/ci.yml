@@ -1,1 +1,42 @@
+name: CI
 
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: basenet
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PostgreSQL
+      run: |
+        psql -U postgres -d testdb -c "CREATE EXTENSION IF NOT EXISTS plpgsql;"
+
+    - name: Run SQL scripts
+      run: |
+        psql -U postgres -d testdb -f sql/functions.sql
+        psql -U postgres -d testdb -f sql/procedures.sql
+        psql -U postgres -d testdb -f sql/views.sql
+
+    - name: Run tests
+      run: |
+        psql -U postgres -d testdb -f tests/test_functions.sql
+        psql -U postgres -d testdb -f tests/test_procedures.sql
+        psql -U postgres -d testdb -f tests/test_views.sql
