@@ -17,6 +17,7 @@ jobs:
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: |
+        psql $DATABASE_URL -f sql/models.sql
         psql $DATABASE_URL -f sql/functions.sql
         psql $DATABASE_URL -f sql/procedures.sql
         psql $DATABASE_URL -f sql/views.sql
