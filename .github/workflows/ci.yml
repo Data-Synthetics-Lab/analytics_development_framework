@@ -31,12 +31,14 @@ jobs:
 
     - name: Run SQL scripts
       run: |
+        psql -U postgres -d testdb -f sql/models.sql
         psql -U postgres -d testdb -f sql/functions.sql
         psql -U postgres -d testdb -f sql/procedures.sql
         psql -U postgres -d testdb -f sql/views.sql
 
     - name: Run tests
       run: |
+        psql -U postgres -d testdb -f tests/test_models.sql
         psql -U postgres -d testdb -f tests/test_functions.sql
         psql -U postgres -d testdb -f tests/test_procedures.sql
         psql -U postgres -d testdb -f tests/test_views.sql
