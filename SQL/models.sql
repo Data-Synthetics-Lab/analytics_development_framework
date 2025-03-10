@@ -1,10 +1,11 @@
 CREATE TABLE IF NOT EXISTS Customers (
-    id INT PRIMARY KEY,
-    firstname VARCHAR(100) NOT NULL
+    id INT PRIMARY KEY, -- unique global customer ide
+    firstname VARCHAR(100) NOT NULL -- 
     lastname VARCHAR(100) NOT NULL,
     email VARCHAR(100),
+    type VARCHAR(100) NOT NULL,
     status VARCHAR(20) NOT NULL,
-    created_date TIMESTAMP,
+    created_date TIMESTAMP NOT NULL,
     updated_date TIMESTAMP
 );
 
